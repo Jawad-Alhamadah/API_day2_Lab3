@@ -21,13 +21,8 @@ fetch ("https://66e8028eb17821a9d9daf072.mockapi.io/images")
 button.addEventListener("click" ,(e)=>{
     e.preventDefault()
     if(input_name.value==="" || inputUrl.value==="" ){
-       let warning = document.createElement("div")
-       warning.setAttribute("role","alert")
-       warning.classList.add("alert","alert-warning","alert")
-       warning.textContent="You must fill both Fields to post image"
-       let alerts = document.getElementById("alerts-container")
-       alerts.appendChild(warning)
-       return
+       return createAlert("You must fill both Fields to post image","warning")
+       
       
     }
 
@@ -47,11 +42,26 @@ button.addEventListener("click" ,(e)=>{
     .then(res =>res.json())
     .then (data => {
         createCard(data)
+        createAlert("Image Added", "info")
     
     })
 
 
 })
+
+function createAlert(text,type) {
+    let warning = document.createElement("div")
+    warning.setAttribute("role", "alert")
+    warning.classList.add("alert", `alert-${type}`, "alert")
+    warning.textContent = text
+
+    let alerts = document.getElementById("alerts-container")
+    alerts.appendChild(warning)
+    setTimeout(() => {
+        alerts.removeChild(warning)
+    }, 5000)
+    return
+}
 
 function createCard(item) {
     let card = document.createElement("div")
